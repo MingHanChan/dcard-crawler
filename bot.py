@@ -1,4 +1,6 @@
 import os
+import sys
+import time
 import argparse
 
 # customized module
@@ -14,10 +16,12 @@ def parse_argv():
 
 	# add argument
 	parser.add_argument('--threads_num', action='store', help='number of threads', type=int, default=4)
+	parser.add_argument('--debug', action='store_true', help='show debug information', default=False)
 	results = parser.parse_args()
 	
 	return {
-		'threads_num': results.threads_num
+		'threads_num': results.threads_num,
+		'debug': results.debug
 	}
 
 def main():
@@ -28,9 +32,6 @@ def main():
 	Dcard.load_db()
 
 	for i in Dcard.db:
-		if i['forumAlias'] != 'nctu':
-			continue
-
 		# init
 		Dcard.init_forum(i['forumAlias'])
 
@@ -38,6 +39,7 @@ def main():
 			os.makedirs(PATH + i['forumAlias'])
 
 		Thread.run(args)
+
 
 if __name__ == '__main__':
 	main()

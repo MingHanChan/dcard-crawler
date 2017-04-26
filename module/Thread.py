@@ -4,6 +4,7 @@ import json
 import queue
 import threading
 
+# customized module
 from . import Dcard
 
 # constant
@@ -19,7 +20,7 @@ def dump(obj):
 	except Exception as e:
 		print('[%10s] %s' % ('dump', str(e)))
 
-def next():
+def next(var):
 	while q.qsize() > 0:
 		# init
 		obj = q.get()
@@ -29,12 +30,14 @@ def next():
 
 		dump(obj)
 
+		if var['debug']:
+			print('[%10s] %s %d' % ('crawling', obj.forumAlias, obj.id))
 
 def run(var):
 	# init
 	threads = []
 	for i in range(0, var['threads_num']):
-		t = threading.Thread(name='T' + str(i), target=next)
+		t = threading.Thread(name='T' + str(i), target=next, args=(var, ))
 		threads.append(t)
 
 	# run

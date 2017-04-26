@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import datetime
+from progress.bar import Bar
 
 # customized module
 from . import Thread
@@ -69,8 +70,6 @@ def init_forum(forumAlias):
 		if len(posts) < 30:
 			break
 
-	print('[%10s] %s %d' % ('init', forumAlias, Thread.q.qsize()))
-
 
 def get_forums():
 	# var
@@ -82,8 +81,8 @@ def get_forums():
 
 		for i in _response:
 			forums.append({
-				'forumAlias': i['forumAlias'],
-				'forumName': i['forumName'],
+				'forumAlias': i['alias'],
+				'forumName': i['name'],
 			})
 
 		return forums
@@ -98,7 +97,7 @@ def load_db():
 	global db
 
 	try:
-		print('[%10s] %s' % ('init', 'loading'))
+		print('[%10s] %s' % ('init', 'db'))
 		with open(PATH + '/db.json', 'r') as file:
 			db = json.load(file)
 	except:
@@ -113,7 +112,7 @@ def load_db():
 			})
 
 	try:
-		with open(PATH + '/db.json', 'w') as file:
+		with open(PATH + '/db.json', 'w+') as file:
 			json.dump(db, file)
 	except Exception as e:
 		print('[%10s] %s' % ('db', str(e)))
