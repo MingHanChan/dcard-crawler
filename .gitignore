@@ -1,0 +1,7 @@
+# data
+
+# cache
+module/__pycache__/
+
+# config
+*.json
