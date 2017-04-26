@@ -2,7 +2,6 @@ import os
 import json
 import requests
 import datetime
-from progress.bar import Bar
 
 # customized module
 from . import Thread
