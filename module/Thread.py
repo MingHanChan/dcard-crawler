@@ -15,7 +15,7 @@ q = queue.Queue()
 
 def dump(obj):
 	try:
-		with open(PATH + '%s/%d.json' % (obj.forumAlias, obj.id), 'w+') as file:
+		with open(PATH + '%s/%015d.json' % (obj.forumAlias, obj.id), 'w+') as file:
 			json.dump(obj.__dict__, file)
 	except Exception as e:
 		print('[%10s] %s' % ('dump', str(e)))
@@ -25,15 +25,13 @@ def next(var):
 		# init
 		obj = q.get()
 
-		_max = max(obj.id)
 		obj.content = Dcard.get_content(obj.id)
 		obj.comments = Dcard.get_comments(obj.id)
 
 		dump(obj)
 
 		if var['debug']:
-			print('[%10s] %s %d' % ('crawling', obj.forumAlias, obj.id))
-
+			print('[%10s] %s %015d' % ('crawling', obj.forumAlias, obj.id))
 
 
 def run(var):

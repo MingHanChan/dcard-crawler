@@ -58,17 +58,17 @@ def init_forum(forumAlias):
 	while index < _max:
 		posts = [Object(i) for i in get_posts(forumAlias, {
 			'popular': 'false',
-			'after': forum['latest']
+			'after': index
 		})]
 
 		# add to queue
 		list(map(Thread.q.put, posts))
 
-		# update
-		index = max([i.id for i in posts])
-
 		if len(posts) < 30:
 			break
+
+		# update
+		index = max([i.id for i in posts])
 
 
 def get_forums():
@@ -113,7 +113,7 @@ def load_db():
 				'forumName': i['forumName'],
 				'forumAlias': i['forumAlias'],
 				'latest': 1,
-				'update_time': '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+				'updateAt': '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 			})
 
 	save_db()

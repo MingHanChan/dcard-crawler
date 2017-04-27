@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import datetime
 import argparse
 
 # customized module
@@ -32,10 +33,6 @@ def main():
 	Dcard.load_db()
 
 	for i in Dcard.db:
-
-		if i['forumAlias'] != 'nctu':
-			continue
-
 		# init
 		Dcard.init_forum(i['forumAlias'])
 
@@ -46,7 +43,8 @@ def main():
 		Thread.run(args)
 
 		# update
-		i['latest'] = max([i for i in os.listdir(PATH + i['forumAlias'])])
+		i['latest'] = max([i[:i.rfind('.')] for i in os.listdir(PATH + i['forumAlias'])])
+		i['updateAt'] = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 		Dcard.save_db()
 
 if __name__ == '__main__':
