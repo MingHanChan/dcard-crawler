@@ -52,19 +52,20 @@ def init_forum(forumAlias):
 	# var
 	global db
 	forum = next(i for i in db if i['forumAlias'] == forumAlias)
-	index = max([i['id'] for i in get_posts(forumAlias, {'popular': 'false'})])
+	index = forum['latest']
+	_max = max([i['id'] for i in get_posts(forumAlias, {'popular': 'false'})])
 
-	while forum['lastest'] < index:
+	while index < _max:
 		posts = [Object(i) for i in get_posts(forumAlias, {
 			'popular': 'false',
-			'after': forum['lastest']
+			'after': forum['latest']
 		})]
 
 		# add to queue
 		list(map(Thread.q.put, posts))
 
 		# update
-		forum['lastest'] = max([i.id for i in posts])
+		index = max([i.id for i in posts])
 
 		if len(posts) < 30:
 			break
@@ -89,7 +90,12 @@ def get_forums():
 		print('[%10s] %s' % ('forums', str(e)))
 		exit()
 
-	print(Thread.q.qsize())
+def save_db():
+	try:
+		with open(PATH + '/db.json', 'w+') as file:
+			json.dump(db, file)
+	except Exception as e:
+		print('[%10s] %s' % ('db', str(e)))
 
 def load_db():
 	# var
@@ -106,13 +112,8 @@ def load_db():
 			db.append({
 				'forumName': i['forumName'],
 				'forumAlias': i['forumAlias'],
-				'lastest': 1,
+				'latest': 1,
 				'update_time': '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 			})
 
-	try:
-		with open(PATH + '/db.json', 'w+') as file:
-			json.dump(db, file)
-	except Exception as e:
-		print('[%10s] %s' % ('db', str(e)))
-		exit()
+	save_db()

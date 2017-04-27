@@ -32,14 +32,22 @@ def main():
 	Dcard.load_db()
 
 	for i in Dcard.db:
+
+		if i['forumAlias'] != 'nctu':
+			continue
+
 		# init
 		Dcard.init_forum(i['forumAlias'])
 
 		if not os.path.exists(PATH + i['forumAlias']):
 			os.makedirs(PATH + i['forumAlias'])
 
+		# threading
 		Thread.run(args)
 
+		# update
+		i['latest'] = max([i for i in os.listdir(PATH + i['forumAlias'])])
+		Dcard.save_db()
 
 if __name__ == '__main__':
 	main()

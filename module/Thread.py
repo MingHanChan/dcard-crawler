@@ -25,6 +25,7 @@ def next(var):
 		# init
 		obj = q.get()
 
+		_max = max(obj.id)
 		obj.content = Dcard.get_content(obj.id)
 		obj.comments = Dcard.get_comments(obj.id)
 
@@ -32,6 +33,8 @@ def next(var):
 
 		if var['debug']:
 			print('[%10s] %s %d' % ('crawling', obj.forumAlias, obj.id))
+
+
 
 def run(var):
 	# init
