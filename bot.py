@@ -33,6 +33,9 @@ def main():
 	Dcard.load_db()
 
 	for i in Dcard.db:
+		if i['forumAlias'] != 'sex':
+			continue
+
 		# init
 		Dcard.init_forum(i['forumAlias'])
 
