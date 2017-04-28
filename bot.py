@@ -46,7 +46,7 @@ def main():
 		Thread.run(args)
 
 		# update
-		i['latest'] = max([i[:i.rfind('.')] for i in os.listdir(PATH + i['forumAlias'])])
+		i['latest'] = max([int(i[:i.rfind('.')]) for i in os.listdir(PATH + i['forumAlias'])])
 		i['updateAt'] = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 		Dcard.save_db()
 
