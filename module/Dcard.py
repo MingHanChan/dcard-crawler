@@ -47,7 +47,7 @@ def get_posts(alias, payload):
 		return None
 
 def init_forum(forumAlias):
-	print('[%10s] %s' % ('init', forumAlias))
+	print('[%10s] %s' % ('run', forumAlias))
 
 	# var
 	global db

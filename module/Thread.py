@@ -25,13 +25,16 @@ def next(var):
 		# init
 		obj = q.get()
 
-		obj.content = Dcard.get_content(obj.id)
-		obj.comments = Dcard.get_comments(obj.id)
+		try:
+			obj.content = Dcard.get_content(obj.id)
+			obj.comments = Dcard.get_comments(obj.id)
+		except Exception as e:
+			print('[%10s] %s' % ('parse', 'failed'))
 
 		dump(obj)
 
 		if var['debug']:
-			print('[%10s] %s %015d' % ('crawling', obj.forumAlias, obj.id))
+			print('[%10s] %015d' % (obj.forumAlias, obj.id))
 
 
 def run(var):
