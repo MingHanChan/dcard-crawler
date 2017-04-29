@@ -46,19 +46,19 @@ def get_posts(alias, payload):
 		print('[%10s] %s' % ('api', str(e)))
 		return None
 
-def init_forum(forumAlias):
-	print('[%10s] %s' % ('run', forumAlias))
+def init_forum(var):
+	print('[%10s] %s' % (var['forumAlias'], 'init'))
 
 	# var
-	global db
-	forum = next(i for i in db if i['forumAlias'] == forumAlias)
-	index = forum['latest']
-	_max = max([i['id'] for i in get_posts(forumAlias, {'popular': 'false'})])
+	_index = var['latest']
+	_max = max([i['id'] for i in get_posts(var['forumAlias'], {'popular': 'false'})])
 
-	while index < _max:
-		posts = [Object(i) for i in get_posts(forumAlias, {
+	print(_index, _max)
+
+	while _index < _max:
+		posts = [Object(i) for i in get_posts(var['forumAlias'], {
 			'popular': 'false',
-			'after': index
+			'after': _index
 		})]
 
 		# add to queue
@@ -68,7 +68,7 @@ def init_forum(forumAlias):
 			break
 
 		# update
-		index = max([i.id for i in posts])
+		_index = max([i.id for i in posts])
 
 
 def get_forums():
