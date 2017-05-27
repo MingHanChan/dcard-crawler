@@ -102,12 +102,9 @@ def load_db():
 	global db
 
 	try:
-		print('[%10s] %s' % ('init', 'db'))
 		with open(PATH + '/db.json', 'r') as file:
 			db = json.load(file)
 	except:
-		print('[%10s] %s' % ('init', 'creating db'))
-		
 		for i in get_forums():
 			db.append({
 				'forumName': i['forumName'],

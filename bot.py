@@ -9,16 +9,40 @@ from module import Dcard
 from module import Thread
 
 # constant
+__version__ = '1.0'
+__description__ = 'dcard-crawler - a simple crawler for dcard.tw'
+__epilog__ = 'Report bugs to <cjyeh@cs.nctu.edu.tw>'
 PATH = os.path.dirname(os.path.abspath(__file__)) + '/data/'
 
 def parse_argv():
 	# init
-	parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser(
+		description=__description__,
+		epilog=__epilog__
+	)
 
 	# add argument
-	parser.add_argument('--forum', action='store', help='forum', choices=[i['forumAlias'] for i in Dcard.db])
-	parser.add_argument('--threads_num', action='store', help='number of threads', type=int, default=4)
-	parser.add_argument('--debug', action='store_true', help='show debug information', default=False)
+	parser.add_argument('forum')
+	parser.add_argument(
+		'-t', '--threads_num', 
+		action='store', 
+		help='Number of threads, default = 4', 
+		type=int, 
+		default=4
+	)
+	parser.add_argument(
+		'--debug', 
+		action='store_true', 
+		help='Show debug information', 
+		default=False
+	)
+	parser.add_argument(
+		'-v', '-V', '--version', 
+		action='version', 
+		help='Print program version', 
+		version='v{}'.format(__version__)
+	)
+
 	results = parser.parse_args()
 	
 	return {
