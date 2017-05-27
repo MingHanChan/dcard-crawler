@@ -3,7 +3,6 @@ data/
 
 # python
 module/__pycache__/
-module/__init__.py
 
 # config
 *.json
