@@ -1,0 +1,13 @@
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-block">
+			<h4>{{ post.title }}</h4>
+			<small>{{ post.school }}</small>
+			<hr>
+			<p>{{ post.content.content }}</p>
+			{% for media in post.media %}
+			  <img src="{{ media.url }}" class="img-fluid" alt="Responsive image">
+			{% endfor %}
+		</div>
+	</div>
+</div>
